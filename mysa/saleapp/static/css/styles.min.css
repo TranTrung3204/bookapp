@@ -16958,3 +16958,42 @@ ul {
 .timeline-widget .timeline-item .timeline-badge.badge-primary {
   border: 2px solid #2952ff;
 }
+
+.footer {
+  background-color: #f8f9fa; /* Màu nền */
+  color: #212529; /* Màu chữ */
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid #dee2e6; /* Viền trên */
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px; /* Khoảng cách giữa các phần */
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Khoảng cách giữa logo và tên hệ thống */
+}
+
+.footer-logo .logo {
+  width: 50px;
+  height: 50px; /* Kích thước logo */
+}
+
+.footer-contact p {
+  margin: 5px 0;
+}
+
+.footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
