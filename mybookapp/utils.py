@@ -1,5 +1,5 @@
 import json, os
-from saleapp import app
+from mybookapp import app
 # ham doc file json
 def read_json(path):
     with open(path, "r") as f:
