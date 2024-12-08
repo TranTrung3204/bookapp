@@ -16592,8 +16592,8 @@ textarea.form-control-lg {
   font-size: 21px;
 }
 .sidebar-nav ul .sidebar-item .sidebar-link:hover {
-  background-color: rgba(41, 82, 255, 0.1);
-  color: #2952ff;
+  background-color: #2952ff;
+  color: white;
 }
 .sidebar-nav ul .sidebar-item .sidebar-link:hover.has-arrow::after {
   border-color: #2952ff;
