@@ -1,21 +1,29 @@
-from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, ForeignKey
-from mybookapp import db
+from sqlalchemy import Column, Integer, String, Float, Enum, Boolean, DateTime, ForeignKey
+from mybookapp import db,app
 from sqlalchemy.orm import relationship
 from datetime import datetime
+from enum import Enum as UserEnum
 
 
+class UserRole(UserEnum):
+    ADMIN = 1
+    USER = 2
 class BaseModel(db.Model):
     __abstract__ = True
     id = Column(Integer, primary_key=True, autoincrement=True)
 
 class TaiKhoan(BaseModel):
-    hoten = Column(String(50), nullable=False)
+    name = Column(String(50), nullable=False)
     username = Column(String(50), nullable=False, unique=True)
     password = Column(String(50), nullable=False)
     avatar = Column(String(100))
     email = Column(String(50))
     active = Column(Boolean, default=True)
     joined_date = Column(DateTime, default=datetime.now())
+    user_role = Column(Enum(UserRole), default=UserRole.USER)
+
+    def __str__(self):
+        return self.username
 
 
 class Sach(BaseModel):
@@ -24,7 +32,7 @@ class Sach(BaseModel):
     theLoai = Column(String(30), nullable=False)
     soLuong = Column(Integer, nullable=False)
     donGia = Column(Float, nullable=False)
-    maTheLoai = Column(Integer, ForeignKey('loai_sach.maTheLoai'), nullable=False)
+    maTheLoai = Column(Integer, ForeignKey('loai_sach.id'), nullable=False)
     loai = relationship("LoaiSach", back_populates="sach")
 
 class LoaiSach(BaseModel):
@@ -77,4 +85,5 @@ class BaoCaoTanSuat(BaoCaoThang):
 
 
 if __name__ == '__main__':
-    db.create_all()
+    with app.app_context():
+        db.create_all()
