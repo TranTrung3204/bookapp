@@ -3,6 +3,7 @@ from mybookapp import db,app
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from enum import Enum as UserEnum
+from flask_login import UserMixin
 
 
 class UserRole(UserEnum):
@@ -13,7 +14,7 @@ class BaseModel(db.Model):
     __abstract__ = True
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-class TaiKhoan(BaseModel):
+class TaiKhoan(BaseModel, UserMixin):
     name = Column(String(50), nullable=False)
     username = Column(String(50), nullable=False, unique=True)
     password = Column(String(50), nullable=False)

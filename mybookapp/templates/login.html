@@ -1,19 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Đăng nhập</title>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <meta content="Login Form Template" name="keywords">
-        <meta content="Login Form Template" name="description">
+<head>
+    <meta charset="utf-8">
+    <title>Đăng nhập</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Login Form Template" name="keywords">
+    <meta content="Login Form Template" name="description">
 
-        <!-- Favicon -->
-        <link href="img/favicon.ico" rel="icon">
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
 
-        <!-- Stylesheet -->
-      <link rel="stylesheet" href="{{ url_for('static', filename='css/style-login.css') }}">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style-login.css') }}">
 </head>
 <body>
+
+
+<div class="col-md-6 text-center">
+    {% if err_msg %}
+    <div class="alert alert-danger mx-auto" role="alert" style="max-width: 400px; text-align: center;">
+        {{ err_msg }}
+    </div>
+    {% endif %}
     <div class="wrapper login-3">
         <div class="container">
             <div class="col-left">
@@ -25,7 +33,8 @@
             <div class="col-right">
                 <div class="login-form">
                     <h2 class="title">ĐĂNG NHẬP</h2>
-                    <form method="POST" action="{{ url_for('login') }}">
+                    <form method="POST" action="{{ url_for('user_login') }}">
+
                         <label for="username">Tài khoản <span>*</span></label>
                         <input type="text" name="username" required>
                         <br>
@@ -36,10 +45,11 @@
                     </form>
                     <p>
                         <a href="#">Quên mật khẩu?</a>
-                        <a href="#">Tạo tài khoản</a>
+                        <a href="{{ url_for('register') }}">Tạo tài khoản</a>
                     </p>
                 </div>
-            </div>x
+            </div>
+            x
         </div>
     </div>
 </body>

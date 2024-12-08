@@ -1,8 +1,8 @@
-import math
 from flask import Flask, render_template, request, redirect, url_for
-from mybookapp import app
+from mybookapp import app,login
 import cloudinary.uploader
 import utils
+from flask_login import login_user, logout_user
 
 app = Flask(__name__)
 from mybookapp.admin import *
@@ -11,9 +11,27 @@ from mybookapp.admin import *
 def index():
     return render_template("index.html")
 
-@app.route("/login")
-def login():
-    return render_template("login.html")
+@app.route("/login", methods=['get', 'post'])
+def user_login():
+    err_msg = ''
+    if request.method.__eq__('POST'):
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        user = utils.check__login(username=username, password=password)
+        if user:
+            login_user(user=user)
+            return redirect(url_for('index'))
+        else:
+            err_msg = 'Username hoặc password không chính xác!!'
+    return render_template("login.html", err_msg=err_msg)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('user_login'))
+
 
 @app.route("/register",methods=['get', 'post'])
 def register():
@@ -40,6 +58,10 @@ def register():
             err_msg = 'He thong loi: ' +str(ex)
     return render_template("register.html")
 
+
+@login.user_loader
+def user_load(user_id):
+    return utils.get_user_by_id(user_id=user_id)
 
 if __name__ == "__main__":
     app.run(debug=True)

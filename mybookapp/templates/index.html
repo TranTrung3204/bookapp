@@ -8,14 +8,10 @@
      data-sidebar-position="fixed" data-header-position="fixed">
     <!-- Sidebar Start -->
     <aside class="left-sidebar">
-        <!-- Sidebar scroll-->
         <div>
-            <div style="margin:10px; padding: 5px; text-align: center">
+            <div style="margin:10px; padding: 5px; text-align:">
                 <h3>Hệ Thống Quản Lý Sách </h3>
             </div>
-
-
-            <!-- Sidebar navigation-->
             <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                 <ul id="sidebarnav">
                     <!-- Quản lý sách Section -->
@@ -104,7 +100,7 @@
                                         <i class="ti ti-mail fs-6"></i>
                                         <p class="mb-0 fs-3">Đổi mật khẩu</p>
                                     </a>
-                                    <a href="./authentication-login.html"
+                                    <a href="{{ url_for('logout') }}"
                                        class="btn btn-outline-primary mx-3 mt-2 d-block">Đăng xuất</a>
                                 </div>
                             </div>
