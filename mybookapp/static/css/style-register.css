@@ -26,6 +26,8 @@ body {
     flex-direction: column;
 }
 
+
+
 /* Container */
 .container {
     position: relative;
@@ -37,7 +39,7 @@ body {
     box-shadow: 0 0 15px rgba(0, 0, 0, .1);
 }
 
-/* Cột trái */
+
 .login-3 .col-left,
 .login-3 .col-right {
     width: 55%;
@@ -52,7 +54,7 @@ body {
     clip-path: polygon(98% 17%, 100% 34%, 98% 51%, 100% 68%, 98% 84%, 100% 100%, 0 100%, 0 0, 100% 0);
 }
 
-/* Văn bản đăng nhập */
+
 .login-3 .login-text {
     position: relative;
     width: 100%;

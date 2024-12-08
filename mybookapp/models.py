@@ -8,6 +8,7 @@ from enum import Enum as UserEnum
 class UserRole(UserEnum):
     ADMIN = 1
     USER = 2
+
 class BaseModel(db.Model):
     __abstract__ = True
     id = Column(Integer, primary_key=True, autoincrement=True)
