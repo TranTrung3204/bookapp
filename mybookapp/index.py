@@ -3,6 +3,8 @@ from mybookapp import app,login
 import cloudinary.uploader
 import utils
 from flask_login import login_user, logout_user
+from mybookapp.models import UserRole
+
 
 app = Flask(__name__)
 from mybookapp.admin import *
@@ -25,6 +27,27 @@ def user_login():
         else:
             err_msg = 'Username hoặc password không chính xác!!'
     return render_template("login.html", err_msg=err_msg)
+
+
+@app.route('/admin-login', methods=['post'])
+def admin_login():
+    err_msg = ''
+    if request.method.__eq__('POST'):
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        # Kiểm tra đăng nhập với vai trò ADMIN
+        user = utils.check__login(username=username, password=password, role=UserRole.ADMIN)
+
+    if user:
+        login_user(user=user)
+        # Chuyển hướng trực tiếp đến trang admin
+        return redirect('index.html')
+    else:
+        # Nếu đăng nhập thất bại, có thể trả về trang login với thông báo lỗi
+        return render_template("index.html",
+                               err_msg='Đăng nhập admin không thành công')
+
 
 
 @app.route('/logout')

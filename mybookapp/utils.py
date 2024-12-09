@@ -1,5 +1,5 @@
 from mybookapp import app,db
-from mybookapp.models import TaiKhoan
+from mybookapp.models import TaiKhoan, UserRole
 import hashlib
 
 def add_user(name, username, password, **kwargs):
@@ -12,11 +12,12 @@ def add_user(name, username, password, **kwargs):
     db.session.add(user)
     db.session.commit()
 
-def check__login(username, password):
+def check__login(username, password, role=UserRole.USER):
     if username and password:
         password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
 
         return TaiKhoan.query.filter(TaiKhoan.username.__eq__(username.strip()),
-                                     TaiKhoan.password.__eq__(password)).first()
+                                     TaiKhoan.password.__eq__(password),
+                                     TaiKhoan.user_role.__eq__(role)).first()
 def get_user_by_id(user_id):
     return TaiKhoan.query.get(user_id)
