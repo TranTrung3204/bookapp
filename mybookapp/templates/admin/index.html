@@ -1,21 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Đăng nhập</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Login Form Template" name="keywords">
-    <meta content="Login Form Template" name="description">
-
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style-login.css') }}">
-</head>
+{% extends 'admin/base.html' %}
+{% block title %}Trang chu {% endblock %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style-login.css') }}">
+{% block content %}
 <body>
-
-
 <div class="col-md-6 text-center">
     {% if err_msg %}
     <div class="alert alert-danger mx-auto" role="alert" style="max-width: 400px; text-align: center;">
@@ -52,5 +39,6 @@
             x
         </div>
     </div>
+</div>
 </body>
-</html>
+{% endblock %}

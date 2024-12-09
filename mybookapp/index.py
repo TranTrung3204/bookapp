@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from mybookapp import app,login
 import cloudinary.uploader
 import utils
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 from mybookapp.models import UserRole
 
 
@@ -36,17 +36,11 @@ def admin_login():
         username = request.form.get('username')
         password = request.form.get('password')
 
-        # Kiểm tra đăng nhập với vai trò ADMIN
         user = utils.check__login(username=username, password=password, role=UserRole.ADMIN)
 
     if user:
         login_user(user=user)
-        # Chuyển hướng trực tiếp đến trang admin
-        return redirect('index.html')
-    else:
-        # Nếu đăng nhập thất bại, có thể trả về trang login với thông báo lỗi
-        return render_template("index.html",
-                               err_msg='Đăng nhập admin không thành công')
+        return redirect('/admin')
 
 
 
@@ -81,6 +75,43 @@ def register():
             err_msg = 'He thong loi: ' +str(ex)
     return render_template("register.html")
 
+
+@app.route('/admin/book-import', methods=['GET', 'POST'])
+@login_required
+def admin_book_import():
+    if request.method == 'POST':
+        ten_sach = request.form['ten_sach']
+        the_loai = request.form['the_loai']
+        tac_gia = request.form['tac_gia']
+        so_luong = int(request.form['so_luong'])
+
+        # Kiểm tra số lượng sách nhập
+        if so_luong < 150:
+            flash('Số lượng sách nhập tối thiểu là 150.', 'danger')
+            return redirect(url_for('admin_book_import'))
+
+        # Kiểm tra số lượng sách tồn kho
+        existing_book = Sach.query.filter_by(tenSach=ten_sach).first()
+        if existing_book and existing_book.soLuong + so_luong > 300:
+            flash(f'Số lượng tồn kho của sách "{ten_sach}" vượt quá 300.', 'danger')
+            return redirect(url_for('admin_book_import'))
+
+        # Lưu thông tin sách vào cơ sở dữ liệu
+        new_book = Sach(
+            tenSach=ten_sach,
+            theLoai=the_loai,
+            soLuong=so_luong,
+            donGia=0,  # Thêm giá bán sau
+            maTheLoai=1,  # Thêm mã thể loại sau
+            loai=None  # Thêm liên kết với bảng LoaiSach sau
+        )
+        db.session.add(new_book)
+        db.session.commit()
+
+        flash('Nhập sách thành công.', 'success')
+        return redirect(url_for('admin.index'))
+
+    return render_template('admin/book_import.html')
 
 @login.user_loader
 def user_load(user_id):
