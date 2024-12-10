@@ -34,13 +34,16 @@ class Sach(BaseModel):
     theLoai = Column(String(30), nullable=False)
     soLuong = Column(Integer, nullable=False)
     donGia = Column(Float, nullable=False)
+    active = Column(Boolean, default=True)
+    image = Column(String(250), nullable=True)
+    ngayTao = Column(DateTime, default=datetime.now())
     maTheLoai = Column(Integer, ForeignKey('loai_sach.id'), nullable=False)
-    loai = relationship("LoaiSach", back_populates="sach")
+    loaiSach = relationship("LoaiSach", back_populates="sach")
 
 class LoaiSach(BaseModel):
     __tablename__ = 'loai_sach'
     tenTheLoai = Column(String(50), nullable=False)
-    sach = relationship("Sach", back_populates="loai")
+    sach = relationship("Sach", back_populates="loaiSach")
 
 class QuyDinh(BaseModel):
     __tablename__ = 'quy_dinh'
