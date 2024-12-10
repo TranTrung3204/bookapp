@@ -1,44 +1,28 @@
-{% extends 'admin/base.html' %}
-{% block title %}Trang chu {% endblock %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style-login.css') }}">
-{% block content %}
-<body>
-<div class="col-md-6 text-center">
-    {% if err_msg %}
-    <div class="alert alert-danger mx-auto" role="alert" style="max-width: 400px; text-align: center;">
-        {{ err_msg }}
-    </div>
-    {% endif %}
-    <div class="wrapper login-3">
-        <div class="container">
-            <div class="col-left">
-                <div class="login-text">
-                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo">
-                    <h1>QUẢN LÍ NHÀ SÁCH</h1>
-                </div>
-            </div>
-            <div class="col-right">
-                <div class="login-form">
-                    <h2 class="title">ĐĂNG NHẬP ADMIN</h2>
-                    <form method="POST" action="{{ url_for('admin_login') }}">
+{% extends 'admin/master.html' %}
 
-                        <label for="username">Tài khoản <span>*</span></label>
-                        <input type="text" name="username" required>
-                        <br>
-                        <label for="password">Mật khẩu <span>*</span></label>
-                        <input type="password" name="password" required>
-                        <br>
-                        <input type="submit" value="Login" class="btn">
-                    </form>
-                    <p>
-                        <a href="#">Quên mật khẩu?</a>
-                        <a href="{{ url_for('register') }}">Tạo tài khoản</a>
-                    </p>
-                </div>
+{% block body %}
+{% if current_user.is_authenticated %}
+<h1 class="text-info text-center">CHÀO MỪNG ĐẾN VỚI TRANG QUẢN TRỊ!</h1>
+<h2 class="text-danger text-center">Chào {{ current_user.username }}.</h2>
+{% else %}
+<div class="container d-flex justify-content-center mt-5">
+    <div class="card p-4 shadow rounded-3" style="width: 400px;">
+
+        <h1 class="text-center text-info">ĐĂNG NHẬP QUẢN TRỊ</h1>
+        <form method="post" action="/admin-login">
+            <div class="form-floating mb-3 mt-3">
+                <input type="text" class="form-control" id="username" placeholder="Tên đăng nhập" name="username"/>
+                <label for="username">Tên đăng nhập</label>
             </div>
-            x
-        </div>
+
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="pwd" placeholder="Mật khẩu" name="password"/>
+                <label for="pwd">Mật khẩu</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
+        </form>
+        {% endif %}
     </div>
 </div>
-</body>
+
 {% endblock %}

@@ -6,12 +6,12 @@ from flask_login import login_user, logout_user, login_required
 from mybookapp.models import UserRole
 
 
-app = Flask(__name__)
 from mybookapp.admin import *
 
 @app.route("/")
 def index():
     return render_template("index.html")
+
 
 @app.route("/login", methods=['get', 'post'])
 def user_login():
@@ -31,7 +31,6 @@ def user_login():
 
 @app.route('/admin-login', methods=['post'])
 def admin_login():
-    err_msg = ''
     if request.method.__eq__('POST'):
         username = request.form.get('username')
         password = request.form.get('password')
@@ -40,9 +39,17 @@ def admin_login():
 
     if user:
         login_user(user=user)
-        return redirect('/admin')
+
+    return redirect(url_for('admin.index'))
 
 
+
+# @app.route('/admin/logout')
+# @login_required
+# def admin_logout():
+#     if current_user.user_role == UserRole.ADMIN:
+#         logout_user()
+#     return redirect('/admin')
 
 @app.route('/logout')
 def logout():
